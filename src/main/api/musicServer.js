@@ -9,6 +9,8 @@ import debug from 'debug';
 import Cache from './cache';
 import { getMusicUrlE } from './index';
 
+const match = require('@nondanee/unblockneteasemusic');
+
 const d = debug('MusicServer');
 const fsPromises = fs.promises;
 
@@ -83,7 +85,18 @@ class MusicServer {
     async getMusicUrl(id, quality) {
         const res = await getMusicUrlE(id, quality);
         d('res: %o', res);
-        if (res.code !== 200 || res.data[0].code !== 200) throw res;
+        let data = res.data[0];
+        if (res.code !== 200 || res.data[0].code !== 200) {
+            let response = await match(id, ['qq', 'kuwo', 'migu']);
+            if (response && response.url) {
+                data.url = response.url;
+                data.code = 200;
+                d('unlock: %o', data);
+                return data;
+            } else {
+                throw res;
+            }
+        }
         return res.data[0];
     }
 
@@ -138,7 +151,7 @@ class MusicServer {
         try {
             const music = await this.getMusicUrl(Number.parseInt(id, 10), quality);
             d('Got URL for music id=%d', id);
-            const musicRes = await this.cache.fetch(music.url.replace(/^http:/, 'https:'));
+            const musicRes = await this.cache.fetch(music.url);
             // TODO: write file only md5 matches
             musicRes.body.pipe(fs.createWriteStream(filePath));
 
