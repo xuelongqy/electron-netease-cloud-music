@@ -89,7 +89,9 @@ class MusicServer {
         if (res.code !== 200 || res.data[0].code !== 200) {
             let response = await match(id, ['qq', 'kuwo', 'migu']);
             if (response && response.url) {
-                data.url = response.url;
+                for (let key in response) {
+                    data[key] = response[key];
+                }
                 data.code = 200;
                 d('unlock: %o', data);
                 return data;
@@ -174,12 +176,14 @@ class MusicServer {
                 }
             });
             musicRes.body.on('end', () => {
-                const md5 = checksum.digest('hex');
-                if (md5 === music.md5.toLowerCase()) {
-                    d('Finish downloading music id=%d, md5=%s', id, md5);
-                } else {
-                    d('Download music id=%d hash mismatch, delete it ...', id);
-                    this.cache.rm(fileName);
+                if (music.md5 !== null) {
+                    const md5 = checksum.digest('hex');
+                    if (md5 === music.md5.toLowerCase()) {
+                        d('Finish downloading music id=%d, md5=%s', id, md5);
+                    } else {
+                        d('Download music id=%d hash mismatch, delete it ...', id);
+                        this.cache.rm(fileName);
+                    }
                 }
                 res.end();
             });
