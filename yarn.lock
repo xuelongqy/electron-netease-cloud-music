@@ -260,6 +260,11 @@
     global-agent "^2.0.2"
     global-tunnel-ng "^2.7.1"
 
+"@nondanee/unblockneteasemusic@^0.24.1":
+  version "0.24.1"
+  resolved "http://r.cnpmjs.org/@nondanee/unblockneteasemusic/download/@nondanee/unblockneteasemusic-0.24.1.tgz#2266d9f89072e1de37634e9bc2351bf8ba337b5f"
+  integrity sha1-ImbZ+JBy4d43Y06bwjUb+Loze18=
+
 "@nornagon/put@0.0.8":
   version "0.0.8"
   resolved "https://registry.yarnpkg.com/@nornagon/put/-/put-0.0.8.tgz#9d497ec46c9364acc3f8b59aa3cf8ee4134ae337"
