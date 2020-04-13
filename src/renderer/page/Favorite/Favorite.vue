@@ -4,13 +4,13 @@
             inverse
             :value="tab"
             @change="handelTabChange">
-            <mu-tab v-for="tab in favTabs"
+            <mu-tab v-for="tab of FavTabs"
                 :key="tab[0]"
                 :value="tab[0]">{{tab[1]}}</mu-tab>
         </mu-tabs>
         <div class="fav-content">
-            <transition :name="transitionName"
-                mode="out-in">
+            <transition mode="out-in"
+                :name="transitionName">
                 <component :is="favCompo"></component>
             </transition>
         </div>
@@ -32,26 +32,25 @@ const FavTabs = [
     ['djradio', '电台']
 ];
 
-const FavCompos = {
-    album: FavAlbums,
-    video: FavVideos,
-    artist: FavArtists,
-    playlist: FavPlaylists,
-    djradio: FavDjRadios
+const FavCompo = {
+    album: 'FavAlbums',
+    video: 'FavVideos',
+    artist: 'FavArtists',
+    playlist: 'FavPlaylists',
+    djradio: 'FavDjRadios'
 };
 
 export default {
-    name: 'Favorite',
+    name: 'favorite',
     data() {
         return {
             tab: 'playlist',
-            favTabs: FavTabs,
             transitionName: 'slide-left'
         };
     },
     computed: {
         favCompo() {
-            return FavCompos[this.tab];
+            return FavCompo[this.tab];
         }
     },
     methods: {
@@ -67,7 +66,10 @@ export default {
                 this.transitionName = 'slide-left';
             }
             this.tab = val;
-        },
+        }
+    },
+    created() {
+        this.FavTabs = FavTabs;
     },
     components: {
         FavAlbums,

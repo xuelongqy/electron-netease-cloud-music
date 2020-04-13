@@ -3,9 +3,9 @@
         <AppNav></AppNav>
         <div class="router-view">
             <transition :name="transitionName">
-                <keep-alive-patched :include="KeepAlive">
+                <keep-alive :include="KeepAlive">
                     <router-view></router-view>
-                </keep-alive-patched>
+                </keep-alive>
             </transition>
         </div>
         <PlayerBar></PlayerBar>
@@ -31,11 +31,7 @@ export default {
         };
     },
     created() {
-        this.KeepAlive = [
-            'Index',
-            'Player',
-            'Favorite'
-        ];
+        this.KeepAlive = ['index', 'player', 'favorite'];
         this.$router.beforeEach((to, from, next) => {
             if (to.name === 'player') {
                 this.transitionName = 'player-in';

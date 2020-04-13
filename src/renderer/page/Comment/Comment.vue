@@ -16,8 +16,8 @@
             </mu-button>
         </mu-tabs>
         <div class="list-wrapper">
-            <transition :name="transitionName"
-                mode="out-in">
+            <transition mode="out-in"
+                :name="transitionName">
                 <keep-alive>
                     <CommentList :key="tab"
                         :thread="thread"
@@ -217,7 +217,7 @@ export default {
 .comment {
     user-select: none;
     .mu-tabs.mu-tabs-inverse {
-        box-shadow: 0 0px 6px rgba(0, 0, 0, 0.4);
+        box-shadow: 0 0 6px rgba(0, 0, 0, 0.4);
         background-color: transparent;
         z-index: unset;
         .btn-compose {
